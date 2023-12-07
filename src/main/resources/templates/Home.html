@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Beautiful Website</title>
+    <link rel="stylesheet" th:href="@{/styles/main.css}">
+</head>
+<body>
+<ul>
+    <li><a class="active" href="/Home">Главная</a></li>
+    <li><a href="/Simplex">Симплекс метод</a></li>
+    <li><a href="/Hook">Метод Хукка-Дживса</a></li>
+    <li><a href="/About">Об авторе</a></li>
+</ul>
+<br>
+<div class="container">
+    <h2>Условие задачи</h2>
+    <form action="#" th:object="${task}" th:action="@{/redirect}" method="post" >
+        <p>Фирма имеет возможность рекламировать свою продукцию, используя местные радио- и телевизионные сети.
+            Затраты на рекламу в бюджете фирмы ограничены <input type="number" class="myInput"  style="width: 5%" th:field="*{price}"  required  min="0"> денежных единиц (ден. ед.) в месяц.
+            Каждая минута радиорекламы обходится в <input type="number" class="myInput"  style="width: 5%" th:field="*{priceA}" required min="0" > ден. ед., а каждая минута телерекламы – в <input class="myInput" type="number"  style="width: 5%" th:field="*{priceB}" required min="0" > ден. ед.
+            Фирма хотела бы использовать радиосеть по крайней мере в <input type="number" class="myInput"  style="width: 5%" th:field="*{radioSales}" required min="0" > раза чаще, чем телевидение.
+            Опыт прошлых лет показал, что объем сбыта, который обеспечивает каждая минута телерекламы, в <input class="myInput" type="number"  style="width: 5%" th:field="*{tvSales}" required min="0" > раз больше объема сбыта,
+            обеспечиваемого одной минутой радиорекламы.
+            Определить оптимальное распределение финансовых средств, ежемесячно отпускаемых на радио- и телерекламу,
+            если время рекламы оплачивается с точностью до 1 мин.
+        </p>
+       <br>
+        <div class="input-label">
+                <label for="dropdown">Выбор метода</label>
+                <select  id="dropdown" name="option">
+                    <option value="Simplex">Симплекс метод</option>
+                    <option value="Hook">Метод Хукка-Дживса</option>
+                </select>
+                <button class="button">Решить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

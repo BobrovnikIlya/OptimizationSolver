@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Метод Хукка-Дживса</title>
+  <link rel="stylesheet" th:href="@{/styles/main.css}">
+</head>
+<body>
+<ul>
+  <li><a href="/Home">Главная</a></li>
+  <li><a href="/Simplex">Симплекс метод</a></li>
+  <li><a class="active" href="/Hook">Метод Хукка-Дживса</a></li>
+  <li><a href="/About">Об авторе</a></li>
+</ul>
+<br>
+<div class="container">
+  <h2>Условие задачи</h2>
+  <p>Фирма имеет возможность рекламировать свою продукцию, используя местные радио- и телевизионные сети.</p>
+  <p th:text="'Затраты на рекламу в бюджете фирмы ограничены '+ ${price} + ' денежных единиц (ден. ед.) в месяц.'"></p>
+  <p th:text="'Каждая минута радиорекламы обходится в '+ ${priceA} + ' ден. ед., а каждая минута телерекламы – в ' + ${priceB} + ' ден. ед.'"></p>
+  <p th:text="'Фирма хотела бы использовать радиосеть по крайней мере в '+ ${radioSales} + ' раза чаще, чем телевидение. '"></p>
+  <p th:text="'Опыт прошлых лет показал, что объем сбыта, который обеспечивает каждая минута телерекламы, в '+ ${tvSales} + ' раз больше объема сбыта,'"></p>
+  <p>
+    обеспечиваемого одной минутой радиорекламы.
+    Определить оптимальное распределение финансовых средств, ежемесячно отпускаемых на радио- и телерекламу,
+    если время рекламы оплачивается с точностью до 1 мин.
+  </p>
+  <br>
+</div>
+<div class="container">
+  <h5>Математическая модель:</h5>
+  <p th:utext="${function}"></p>
+  <p th:utext="${constraints}"></p>
+  <p>где x1 - количество минут радиорекламы, x2 - количество минут телевизионной рекламы</p>
+  <br>
+</div>
+<div class="container">
+  <h5>Ответ метода Хукка-Дживса:</h5>
+  <p th:text="${hook}"></p>
+  <br>
+</div>
+<div class="container">
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">График</h5>
+          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="plotly"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<!--  <h5>График:</h5>
+  <a href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal" class="position-absolute top-0 end-0 mt-2 me-2">
+    <i class="fas fa-chart-line"></i>
+  </a>
+  <br>-->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.0.0/math.js"
+        integrity="sha512-rffRpOvP8/vOkbpVUpjesEh2AI40+pNcMh0LAAdOKBE96pLnJh1IGKGhu/RL5lrmW8fA9p5ph5GkCOlMNXr3eg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var contour = {
+    z:  /*[[${z_contour}]]*/ 'default',
+    x:  /*[[${x_contour}]]*/ 'default',
+    y:  /*[[${y_contour}]]*/ 'default',
+    ncontours: 100,
+    showscale: false,
+    type: 'contour',
+    name: 'Целевая функция'
+  };
+  var startPoint = {
+
+    x: /*[[${x_start}]]*/ 'default',
+    y: /*[[${y_start}]]*/ 'default',
+    showscale: false,
+    type: 'scatter',
+    mode: 'markers',
+    marker: {
+      color: 'rgba(3,250,36,0.95)',
+      line: {
+        color: 'rgba(3,250,36,0.95)',
+        width: 3,
+      },
+      symbol: 'circle',
+      size: 5
+    },
+    name: 'Начальная точка'
+  };
+  var endPoint = {
+
+    x: /*[[${x_end}]]*/ 'default',
+    y: /*[[${y_end}]]*/ 'default',
+    showscale: false,
+    type: 'scatter',
+    mode: 'markers',
+    marker: {
+      color: 'rgb(12,98,227)',
+      line: {
+        color: 'rgb(12,30,227)',
+        width: 3,
+      },
+      symbol: 'circle',
+      size: 5
+    },
+    name: 'Конечная точка'
+  };
+
+
+  var constraintPoint = {
+
+    x: /*[[${x_constraint}]]*/ 'default',
+    y: /*[[${y_constraint}]]*/ 'default',
+    fill: 'toself',
+    fillcolor: 'rgba(250,99,99,0.5)', // полупрозрачный цвет
+    hoveron: 'points+fills',
+    line: { color: '#fa6363' },
+    name: 'Область ограничений'
+
+  };
+  var path = {
+    x: /*[[${x_path}]]*/ 'default',
+    y: /*[[${y_path}]]*/ 'default',
+    mode: 'markers+lines',
+    name: 'steepest',
+    line: {color: 'black'},
+    type: 'scatter',
+    name: 'Путь'
+
+  };
+  var layout = {
+    xaxis: {
+      title: 'Радиореклама, мин.',
+      titlefont: {
+        family: 'Arial, sans-serif',
+        size: 18,
+        color: 'lightgrey'
+      },
+      showticklabels: true,
+      tickangle: 'auto',
+      tickfont: {
+        family: 'Old Standard TT, serif',
+        size: 14,
+        color: 'black'
+      },
+      exponentformat: 'e',
+      showexponent: 'all'
+    },
+    yaxis: {
+      title: 'Телереклама, мин.',
+      titlefont: {
+        family: 'Arial, sans-serif',
+        size: 18,
+        color: 'lightgrey'
+      },
+      showticklabels: true,
+      tickangle: 45,
+      tickfont: {
+        family: 'Old Standard TT, serif',
+        size: 14,
+        color: 'black'
+      },
+      exponentformat: 'e',
+      showexponent: 'all'
+    }
+  };
+  var data = [constraintPoint,contour,path,startPoint,endPoint];
+
+
+  Plotly.newPlot('plotly', data,layout);
+  /*]]>*/
+</script>
+
+<script
+        type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.2/mdb.min.js"
+></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>
