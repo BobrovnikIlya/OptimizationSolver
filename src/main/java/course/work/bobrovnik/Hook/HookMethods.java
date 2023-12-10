@@ -48,7 +48,7 @@ public class HookMethods {
             for (double j = 0; j < 40; j++) {
                 if (constraintsSatisfied(new Point(i, j)))
                     points.add(new Point(i, j));
-                tmp.add(f(new Point(i, j)));
+                tmp.add(f(new Point(j, i)));
             }
             if (!points.isEmpty())
                 constrainPoints.add(points);
@@ -64,7 +64,6 @@ public class HookMethods {
         constrainPoints.stream().forEach(p -> path.add(p.get(0)));
         completeTask.constrainPoints = path;
     }
-
     public static CompleteHook getResult(Task task) {
         tasks = new ArrayList<>();
         HookMethods.task = task;
@@ -113,7 +112,6 @@ public class HookMethods {
                     point1 = point2;
                 }
             }
-
             completeTask1.endPoint = point1;
             tasks.add(completeTask1);
         }

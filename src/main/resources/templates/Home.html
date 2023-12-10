@@ -16,8 +16,8 @@
     <h2>Условие задачи</h2>
     <form action="#" th:object="${task}" th:action="@{/redirect}" method="post" >
         <p>Фирма имеет возможность рекламировать свою продукцию, используя местные радио- и телевизионные сети.
-            Затраты на рекламу в бюджете фирмы ограничены <input type="number" class="myInput"  style="width: 5%" th:field="*{price}"  required  min="0"> денежных единиц (ден. ед.) в месяц.
-            Каждая минута радиорекламы обходится в <input type="number" class="myInput"  style="width: 5%" th:field="*{priceA}" required min="0" > ден. ед., а каждая минута телерекламы – в <input class="myInput" type="number"  style="width: 5%" th:field="*{priceB}" required min="0" > ден. ед.
+            Затраты на рекламу в бюджете фирмы ограничены <input id="maxC" type="number" class="myInput"  style="width: 5%" th:field="*{price}" th:value="11" required  min="0"> денежных единиц (ден. ед.) в месяц.
+            Каждая минута радиорекламы обходится в <input type="number" id="priceA" class="myInput"  style="width: 5%" th:field="*{priceA}" required min="0" > ден. ед., а каждая минута телерекламы – в <input id="priceB" class="myInput" type="number"  style="width: 5%" th:field="*{priceB}" required min="0" > ден. ед.
             Фирма хотела бы использовать радиосеть по крайней мере в <input type="number" class="myInput"  style="width: 5%" th:field="*{radioSales}" required min="0" > раза чаще, чем телевидение.
             Опыт прошлых лет показал, что объем сбыта, который обеспечивает каждая минута телерекламы, в <input class="myInput" type="number"  style="width: 5%" th:field="*{tvSales}" required min="0" > раз больше объема сбыта,
             обеспечиваемого одной минутой радиорекламы.
@@ -25,15 +25,58 @@
             если время рекламы оплачивается с точностью до 1 мин.
         </p>
        <br>
+            <p>Как изменятся распределение средств и времени на каждый вид рекламы, если:</p>
+        <div class="row">
+            <p>а) общие затраты фирмы на рекламу увеличатся (уменьшатся) на 10 %</p>
+            <button class="button" type="button" onclick="first(true)">Увеличить</button>
+            <button class="button" type="button" onclick="first(false)">Уменьшить</button>
+        </div>
+        <div class="row">
+            <p>б) каждая минута (радио или теле) рекламы может стоить больше (или меньше) на 15 % </p>
+            <button class="button" type="button" onclick="second(true)">Увеличить</button>
+            <button class="button" type="button" onclick="second(false)">Уменьшить</button>
+        </div>
+        <br>
         <div class="input-label">
                 <label for="dropdown">Выбор метода</label>
                 <select  id="dropdown" name="option">
                     <option value="Simplex">Симплекс метод</option>
                     <option value="Hook">Метод Хукка-Дживса</option>
                 </select>
-                <button class="button">Решить</button>
+                <button class="button-solve">Решить</button>
         </div>
     </form>
 </div>
+<script>
+    document.querySelectorAll('.change').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.className = "btn btn-outline-primary";
+            });
+            this.className = "btn btn-primary";
+        });
+    });
+
+    function first(isFirst){
+        if (isFirst) {
+            document.getElementById("maxC").value = Math.round(Number(document.getElementById("maxC").value) * 110 / 100);
+        } else {
+            document.getElementById("maxC").value = Math.round(Number(document.getElementById("maxC").value) * 90 / 100);
+        }
+    }
+    function second(isFirst){
+        if (isFirst) {
+            document.getElementById("priceA").value = Math.round(Number(document.getElementById("priceA").value) * 115 / 100);
+            document.getElementById("priceB").value = Math.round(Number(document.getElementById("priceB").value) * 115 / 100);
+        } else{
+            document.getElementById("priceA").value = Math.round(Number(document.getElementById("priceA").value) * 85 / 100);
+            document.getElementById("priceB").value = Math.round(Number(document.getElementById("priceB").value) * 85 / 100);
+        }
+    }
+</script>
+</script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
