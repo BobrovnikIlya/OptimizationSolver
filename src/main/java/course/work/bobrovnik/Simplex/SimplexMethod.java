@@ -177,9 +177,7 @@ public class SimplexMethod {
             completeTaskSimplex.setX2(map.get("x2") != null ? map.get("x2").intValue() : 0);
             completeTaskSimplex.setF(F.intValue());
         }
-
     }
-
     public static CompleteSimplex getCompleteTask(Task task) {
         double[][] arrX = new double[task.getListWrapper().getModules().size()][task.getListWrapper().getModules().size() + 2];
         int count = 2;
@@ -188,7 +186,6 @@ public class SimplexMethod {
             arrX[i][1] = task.getListWrapper().getModules().get(i).getKitB();
             for (int j = 2; j < task.getListWrapper().getModules().size() + 2; j++) {
                 arrX[i][j] = 0;
-
             }
             arrX[i][count] = 1;
             count++;

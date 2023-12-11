@@ -15,19 +15,21 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController {
     @GetMapping("/Home")
     public ModelAndView getStart() {
-        System.out.println("Инициализация начальной страницы...");
+        System.out.println("Запуск начальной страницы");
         ModelAndView start = new ModelAndView("Home");
         Task task = new Task();
+        task.setListWrapper();
         start.addObject("task", task);
-        System.out.println("Отображение начальной страницы...");
+        System.out.println("Отображение начальной страницы");
         return start;
     }
     @PostMapping("/redirect")
     public ModelAndView redirect(@RequestParam String option, @ModelAttribute Task task, HttpSession session) {
         System.out.println("Произведение расчетов...");
         task.setListWrapper();
+        System.out.println("Передача данных с клиента на сервер");
         if (option.equals("Simplex")) {
-            System.out.println("Запуск Симплекс-метода...");
+            System.out.println("Запуск решения симплекс-методом");
             CompleteSimplex completeSimplex = SimplexMethod.getCompleteTask(task);
             System.out.println("Сохранение результатов...");
             session.setAttribute("task",task);
@@ -35,7 +37,7 @@ public class MainController {
             System.out.println("Результаты сохранены. Переход к отображению результатов");
             return new ModelAndView("redirect:/Simplex");
         } else if (option.equals("Hook")) {
-            System.out.println("Запуск метода Хука-Дживса...");
+            System.out.println("Запуск решения методом Хука-Дживса");
             CompleteHook completeHook =  HookMethods.getResult(task);
             System.out.println("Сохранение результатов...");
             session.setAttribute("task",task);
@@ -48,10 +50,10 @@ public class MainController {
     }
     @GetMapping("/Simplex")
     public ModelAndView simplexPage(HttpSession session) {
-        System.out.println("Выгрузка результатов");
-        System.out.println("Выгрузка условий задачи");
+        System.out.println("Передача на клиент результатов");
+        System.out.println("Передача на клиент условий задачи");
         Task task = (Task) session.getAttribute("task");
-        System.out.println("Выгрузка ответа симплекс-метода");
+        System.out.println("Передача на клиент ответа симплекс-метода");
         CompleteSimplex simplex = (CompleteSimplex) session.getAttribute("simplex");
         ModelAndView simpl = new ModelAndView("Simplex");
         simpl.addObject("function", CreatorComplete.getFunction(task));
@@ -61,12 +63,13 @@ public class MainController {
         System.out.println("Отображение результатов");
         return simpl;
     }
+
     @GetMapping("/Hook")
     public ModelAndView hookPage(HttpSession session) {
-        System.out.println("Выгрузка результатов");
-        System.out.println("Выгрузка условий задачи");
+        System.out.println("Передача на клиент результатов");
+        System.out.println("Передача на клиент условий задачи");
         Task task = (Task) session.getAttribute("task");
-        System.out.println("Выгрузка ответа Хука-Дживса");
+        System.out.println("Передача на клиент ответа Хука-Дживса");
         CompleteHook completehook = (CompleteHook) session.getAttribute("hook");
         ModelAndView hook = new ModelAndView("Hook");
         hook.addObject("function", CreatorComplete.getFunction(task));
@@ -76,8 +79,15 @@ public class MainController {
         System.out.println("Отображение результатов");
         return hook;
     }
+    @GetMapping("/ForUser")
+    public ModelAndView userPage() {
+        System.out.println("Отображение руководства пользователю");
+        ModelAndView user = new ModelAndView("ForUser");
+        return user;
+    }
     @GetMapping("/About")
     public ModelAndView aboutPage() {
+        System.out.println("Отображение информации об авторе");
         ModelAndView about = new ModelAndView("About");
         return about;
     }
