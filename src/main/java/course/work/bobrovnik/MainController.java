@@ -38,7 +38,7 @@ public class MainController {
             return new ModelAndView("redirect:/Simplex");
         } else if (option.equals("Hook")) {
             System.out.println("Запуск решения методом Хука-Дживса");
-            CompleteHook completeHook =  HookMethods.getResult(task);
+            CompleteHook completeHook =  HookMethods.solveResult(task);
             System.out.println("Сохранение результатов...");
             session.setAttribute("task",task);
             session.setAttribute("hook",completeHook);
