@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title> CourseWork </title>
+  <link rel="stylesheet" th:href="@{/css/authorization.css}">
+</head>
+
+<body>
+<section class="forms-section">
+  <h1 class="section-title">Авторизация</h1>
+  <div class="forms">
+    <div class="form-wrapper is-active">
+      <button type="button" class="switcher switcher-login">
+        Вход
+        <span class="underline"></span>
+      </button>
+      <form class="form form-login" th:action="@{/login}" method="post">
+        <fieldset>
+          <legend>Пожалуйста введите вашу почту и пароль для входа</legend>
+          <div class="input-block">
+            <label for="login-email">Имя пользователя</label>
+            <input id="login-email" type="username" name="username" required>
+          </div>
+          <div class="input-block">
+            <label for="login-password">Пароль</label>
+            <input id="login-password" type="password" name="password" required>
+          </div>
+        </fieldset>
+        <div th:if="${param.error}">
+          Введены неверные данные
+        </div>
+        <div th:if="${param.logout}">
+          Вы вышли из аккаунта
+        </div>
+        <input type="submit" class="btn-login" value="Войти"/>
+      </form>
+    </div>
+
+
+    <div class="form-wrapper">
+      <button type="button" class="switcher switcher-signup">
+        Регистарция
+        <span class="underline"></span>
+      </button>
+      <form  class="form form-signup">
+        <fieldset>
+          <legend>Пожалуйста введите вашу почту, пароль и повторите пароль для регистрации</legend>
+          <div class="input-block">
+            <label for="signup-email">Имя пользователя</label>
+            <input id="signup-email" type="username" required>
+          </div>
+          <div class="input-block">
+            <label for="signup-password">Пароль</label>
+            <input id="signup-password" type="password" required>
+          </div>
+          <div class="input-block">
+            <label for="signup-password-confirm">Повторный пароль</label>
+            <input id="signup-password-confirm" type="password" required>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn-signup">Продолжить</button>
+      </form>
+    </div>
+  </div>
+</section>
+<script>
+  const switchers = [...document.querySelectorAll('.switcher')]
+  switchers.forEach(item => {
+    item.addEventListener('click', function() {
+      switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+      this.parentElement.classList.add('is-active')
+    })
+  })
+</script>
+</body>

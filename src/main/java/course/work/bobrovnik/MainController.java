@@ -4,8 +4,7 @@ import course.work.bobrovnik.Hook.HookMethods;
 import course.work.bobrovnik.Simplex.CompleteSimplex;
 import course.work.bobrovnik.Simplex.SimplexMethod;
 import course.work.bobrovnik.Hook.CompleteHook;
-import course.work.bobrovnik.graphics.CreatorComplete;
-import course.work.bobrovnik.main.ModuleListWrapper;
+import course.work.bobrovnik.main.CreatorComplete;
 import course.work.bobrovnik.main.Task;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class MainController {
+    @GetMapping("/")
+    public ModelAndView greeting() {
+        System.out.println("Запуск страницы приветствия");
+        ModelAndView greeting = new ModelAndView("greeting");
+        System.out.println("Отображение страницы приветствия");
+        return greeting;
+    }
     @GetMapping("/Home")
     public ModelAndView getStart() {
         System.out.println("Запуск начальной страницы");
