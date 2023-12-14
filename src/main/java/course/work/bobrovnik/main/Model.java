@@ -4,7 +4,7 @@ import lombok.*;
 
 @Data
 @AllArgsConstructor
-public class Module {
+public class Model {
     private int moduleNumber;
     private int kitA;
     private int kitB;

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Course Work</title>
-    <link rel="stylesheet" th:href="@{/styles/main.css}">
+    <link rel="stylesheet" th:href="@{css/main.css}">
 </head>
 <body>
 <ul>
@@ -11,6 +11,8 @@
     <li><a href="/Hook">Метод Хука-Дживса</a></li>
     <li><a href="/ForUser">Руководство пользователя</a></li>
     <li><a href="/About">Об авторе</a></li>
+    <li><form th:action="@{/logout}" method="post"><input type="submit" value="Выйти"/></form></li>
+
 </ul>
 <br>
 <div class="container">

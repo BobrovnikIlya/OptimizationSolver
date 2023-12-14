@@ -24,13 +24,13 @@ ul{
     float: left;
 }
  li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
- li a:hover:not(.active) {
+     display: block;
+     color: white;
+     text-align: center;
+     padding: 14px 16px;
+     text-decoration: none;
+ }
+li a:hover:not(.active) {
     background-color: #111;
 }
 .active {
@@ -75,14 +75,14 @@ select {
 input[type=submit] {
     background-color: #4CAF50;
     color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
     cursor: pointer;
     float: right;
 }
 input[type=submit]:hover {
-    background-color: #45a049;
+    background-color: #1c621f;
 }
 .container {
     border-radius: 5px;

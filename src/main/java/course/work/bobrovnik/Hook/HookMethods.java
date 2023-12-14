@@ -1,7 +1,7 @@
 package course.work.bobrovnik.Hook;
 
 import course.work.bobrovnik.graphics.Point;
-import course.work.bobrovnik.main.Module;
+import course.work.bobrovnik.main.Model;
 import course.work.bobrovnik.main.Task;
 
 import java.util.*;
@@ -23,8 +23,8 @@ public class HookMethods {
 
     //Обработка ограничений
     private static boolean constraints(Point point) {
-        for (Module module : task.getListWrapper().getModules()) {
-            if (module.getKitA() * point.x + module.getKitB() * point.y > module.getTimeFund()) {
+        for (Model model : task.getListWrapper().getModels()) {
+            if (model.getKitA() * point.x + model.getKitB() * point.y > model.getTimeFund()) {
                 return false;
             }
         }

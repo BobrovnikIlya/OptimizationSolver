@@ -1,4 +1,4 @@
-package course.work.bobrovnik.graphics;
+package course.work.bobrovnik.main;
 
 import course.work.bobrovnik.Hook.CompleteHook;
 import course.work.bobrovnik.Simplex.CompleteSimplex;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class CreatorComplete {
         public static String getConstraints(Task task) {
             List<String> constraints = new ArrayList<>();
-            task.getListWrapper().getModules()
+            task.getListWrapper().getModels()
                     .stream()
                     .forEach(module -> constraints.add(MessageFormat.format(" {0}∙x1 + {1}∙x2 \\leq {2}", module.getKitA(), module.getKitB(), module.getTimeFund())));
             return"""
